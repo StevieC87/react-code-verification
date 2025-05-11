@@ -1,0 +1,10 @@
+Copyright © Stephen Copeland 2025
+
+All rights reserved.
+
+This code is provided for viewing purposes only.  
+You may not copy, modify, distribute, or use this code in any other project or for any commercial or non-commercial purpose without express written permission from the author.
+
+Forking is allowed only to inspect the original code.  
+No derivative works may be created or published.
+Copyright © Stephen Copeland 2025
