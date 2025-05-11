@@ -98,22 +98,14 @@ export default function VerificationDigits({ email }) {
 
     //. THIS IS IF USER TRIES TO ADD ANOTHER NUMBER TO AN EXISTING INPUT (after has added initial value)
     if (pasteddatalength > 1) {
-      //alert('mulla');
-      //take first six vlaues 
+
       const values1 = pastedData.split('');
 
-      //keep only first 6
-      //get current field
-      //if im on 0 field , dont matter
-      //if im on fied 1 : do only NOT 0, but
 
-      // const values = values1.slice(0, 6)
       let values = values1.slice(0, 6)
       const lengthvalues = values.length;
 
-      //    let currentfield = getcurrentfield;
-      //   let slicewewant = 5 - currentfield;
-      //WE WANNA SLICE THE TOTALS MINUS THE CURRENT FIELD, IF IT EXCEEDS 
+
       let totalfields = 6;
       let currentfield = getcurrentfield;
       let slicethis
@@ -132,12 +124,7 @@ export default function VerificationDigits({ email }) {
       }
 
       let wheretofocus;
-      //if e.g. we are on 0 field - we past 2 - we want to be on 2nd field
-      //if we are on 1 field - we past 2 - we want to be on 3rd field
-      //so for now it's current field + total length
-      //*however if we are on say 2nd field, and we past 5 (exceeds)
-      //if current field + length of pasted values > 5  -> then focus should be onthe 5th field
-      //what other cases : if
+
 
       if (currentfield + lengthofpastedvalues > 6) {
         wheretofocus = 5; //focus onthe last field
@@ -145,12 +132,10 @@ export default function VerificationDigits({ email }) {
       else if (currentfield + lengthofpastedvalues == 6) {
         wheretofocus = 5; //focus onthe last field
       }
-      //ALSO, WHAT IF WE ARE ON THE 4TH FIELD AND WE PASTE 3
-      //IF CURRENT FIE;D + LENGTH OF PASTED VALUES > 6 // THEN LAST FIELD 
+
       else {
         wheretofocus = currentfield + lengthofpastedvalues;
       }
-      //but if matches the last one - WE WANT TO FOCUS ON THE LAST FIELD
 
 
 
@@ -215,9 +200,7 @@ export default function VerificationDigits({ email }) {
         idx4 = null;
         idx5 = 5;
       }
-      //IF CURRENT FIELD IS SAY THE THIRD 
-      //THEN ON THAT FIELD WE PUT THE FIRST VALUE
-      //WE PUT THE VALUE + POSITION
+
       console.log(values[0], 'values[0]');
       console.log(values[1], 'values[1]');
       console.log(values[2], 'values[2]');
@@ -228,9 +211,7 @@ export default function VerificationDigits({ email }) {
 
 
       console.log('idxes', idx0, idx1, idx2, idx3, idx4, idx5);
-      //if eg however only 2, and we are in 3rd field (so 4th field)
       console.log(values, 'values');
-      //could do if else but a lot of repetition
       if (idx0 !== null) {
         setDigit1(values[0 - currentfield] || '');
         console.log(values[0 - currentfield], 'values[0]');
@@ -257,17 +238,11 @@ export default function VerificationDigits({ email }) {
         setDigit6(values[5 - currentfield] || '');
         inputRefs[idx5].current.value = values[5 - currentfield] || '';
       }
-      //alternative - pastes eveyrhting from beginning every time
-      // inputRefs[0].current.value = values[0] || '';
-      /*  if (values.length <= 5) {
-         inputRefs[pastedData.length].current.focus();
-       }
-  */
+
 
       inputRefs[wheretofocus].current.focus();
 
-      // const trimmedValue = value.slice(1, 2);
-      // console.log(trimmedValue, 'trimmedValue');
+
 
     }
 
@@ -568,9 +543,6 @@ export default function VerificationDigits({ email }) {
       // router.push('/users/login');
     }
 
-    //show error message
-    // alert('Verification failed');
-
 
   }
 
@@ -610,44 +582,32 @@ export default function VerificationDigits({ email }) {
 
             <div className="flex flex-row justify-center items-center">
               <input className="verifinput" ref={inputRefs[0]} default="" type="text" min="1" max="9" inputMode="numeric" pattern="[0-9]*" id="firstdigit" name="firstdigit"
-                //  onChange={(e) => onChangeinput(e, 0)}
                 onPaste={(e) => handlePaste(e, 0)}
-                //onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onKeyDown={(e) => Keyboardpress(e, 0)}
                 onFocus={() => onFocusfield(0)}
               />
               <input className="verifinput" inputMode="numeric" pattern="[0-9]*" ref={inputRefs[1]} type="text" min="1" max="9" id="  firstdigit" name="seconddigit"
-                //   onChange={(e) => onChangeinput(e, 1)}
                 onKeyDown={(e) => Keyboardpress(e, 1)}
-                //onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onPaste={(e) => handlePaste(e, 1)}
                 onFocus={() => onFocusfield(1)}
               />
               <input className="verifinput" inputMode="numeric" pattern="[0-9]*" ref={inputRefs[2]} type="text" min="1" max="9" id="firstdigit" name="thirddigit"
-                //  onChange={(e) => onChangeinput(e, 2)}
                 onKeyDown={(e) => Keyboardpress(e, 2)}
-                //onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onPaste={(e) => handlePaste(e, 2)}
                 onFocus={() => onFocusfield(2)}
               />
               <input className="verifinput" inputMode="numeric" pattern="[0-9]*" ref={inputRefs[3]} type="text" min="1" max="9" id="firstdigit" name="fourthdigit"
-                //  onChange={(e) => onChangeinput(e, 3)}
                 onKeyDown={(e) => Keyboardpress(e, 3)}
-                //onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onPaste={(e) => handlePaste(e, 3)}
                 onFocus={() => onFocusfield(3)}
               />
               <input className="verifinput" inputMode="numeric" pattern="[0-9]*" ref={inputRefs[4]} type="text" min="1" max="9" id="firstdigit" name="fifthdigit"
-                //  onChange={(e) => onChangeinput(e, 4)}
                 onKeyDown={(e) => Keyboardpress(e, 4)}
-                //onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onPaste={(e) => handlePaste(e, 4)}
                 onFocus={() => onFocusfield(4)}
               />
               <input className="verifinput" inputMode="numeric" pattern="[0-9]*" ref={inputRefs[5]} type="text" min="1" max="9" id="firstdigit" name="sixthdigit"
-                //  onChange={(e) => onChangeinput(e, 5)}
                 onKeyDown={(e) => Keyboardpress(e, 5)}
-                // onKeyUp={(e) => handlePaste(e, 4, 'keyboardpaste')}
                 onPaste={(e) => handlePaste(e, 5)}
                 onFocus={() => onFocusfield(5)}
               />
