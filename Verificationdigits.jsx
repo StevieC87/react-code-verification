@@ -131,6 +131,28 @@ export default function VerificationDigits({ email }) {
         slicethis = values;
       }
 
+      let wheretofocus;
+      //if e.g. we are on 0 field - we past 2 - we want to be on 2nd field
+      //if we are on 1 field - we past 2 - we want to be on 3rd field
+      //so for now it's current field + total length
+      //*however if we are on say 2nd field, and we past 5 (exceeds)
+      //if current field + length of pasted values > 5  -> then focus should be onthe 5th field
+      //what other cases : if
+
+      if (currentfield + lengthofpastedvalues > 6) {
+        wheretofocus = 5; //focus onthe last field
+      }
+      else if (currentfield + lengthofpastedvalues == 6) {
+        wheretofocus = 5; //focus onthe last field
+      }
+      //ALSO, WHAT IF WE ARE ON THE 4TH FIELD AND WE PASTE 3
+      //IF CURRENT FIE;D + LENGTH OF PASTED VALUES > 6 // THEN LAST FIELD 
+      else {
+        wheretofocus = currentfield + lengthofpastedvalues;
+      }
+      //but if matches the last one - WE WANT TO FOCUS ON THE LAST FIELD
+
+
 
       values = slicethis;
       console.log(values, 'values111');
@@ -204,6 +226,7 @@ export default function VerificationDigits({ email }) {
 
       console.log(values[5], 'values[5]');
 
+
       console.log('idxes', idx0, idx1, idx2, idx3, idx4, idx5);
       //if eg however only 2, and we are in 3rd field (so 4th field)
       console.log(values, 'values');
@@ -236,13 +259,13 @@ export default function VerificationDigits({ email }) {
       }
       //alternative - pastes eveyrhting from beginning every time
       // inputRefs[0].current.value = values[0] || '';
-      if (values.length <= 5) {
-        inputRefs[pastedData.length].current.focus();
-      }
+      /*  if (values.length <= 5) {
+         inputRefs[pastedData.length].current.focus();
+       }
+  */
 
-      else if (values.length >= 6) {
-        // inputRefs[pastedData.length - 1].current.focus();
-      }
+      inputRefs[wheretofocus].current.focus();
+
       // const trimmedValue = value.slice(1, 2);
       // console.log(trimmedValue, 'trimmedValue');
 
