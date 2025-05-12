@@ -17,13 +17,15 @@ export default function VerificationDigits({ email }) {
   const [digit6, setDigit6] = useState('');
 
   const [showerrormessage, setShowErrorMessage] = useState(false);
+  const [errormessagecontent, setErrorMessageContent] = useState('');
   const [switchscreensonsuccessshow, setSwitchScreenOnSuccessShow] = useState(false);
   /*  const switchgetfield(idx) => {
  
    } */
   useEffect(() => {
-
-    inputRefs[0].current.focus();
+    if (typeof window !== 'undefined') {
+      //  inputRefs[0].current.focus();
+    }
   }, []);
 
   useEffect(() => {
@@ -50,19 +52,29 @@ export default function VerificationDigits({ email }) {
     // optional, only if you want to control the paste
 
     let pastedData = e.clipboardData.getData('text/plain');
-
+    console.log(typeof pastedData)
     const { name } = e.target;
 
     console.log('Pasted:', pastedData);
-    if (isNaN(pastedData)) {
+    //length
+    console.log('pastedDataL:', pastedData.length);
+    const trimpasteddata = pastedData.trim();
+    console.log('trimpasteddata:', trimpasteddata);
+    console.log('trimpasteddataL:', trimpasteddata.length);
+    //convert to number
+    const numberpasteddata = parseInt(trimpasteddata, 10);
+    //length 
+    const lengthofnumberpasteddata = numberpasteddata.toString().length;
+    console.log('numberpasteddata:', numberpasteddata);
+    if (isNaN(numberpasteddata)) {
       e.preventDefault();
       return;
     }
 
     let pasteddatalength = pastedData.length;
     //. THIS IS IF USER TRIES TO ADD ONE VALUE TO AN EMPTY FIELD
-    if (pasteddatalength === 1) {
-      let value = pastedData;
+    if (lengthofnumberpasteddata === 1) {
+      let value = trimpasteddata;
       switch (name) {
         case "firstdigit":
           inputRefs[idx].current.value = value;
@@ -97,12 +109,15 @@ export default function VerificationDigits({ email }) {
     }
 
     //. THIS IS IF USER TRIES TO ADD ANOTHER NUMBER TO AN EXISTING INPUT (after has added initial value)
-    if (pasteddatalength > 1) {
+    if (lengthofnumberpasteddata > 1) {
 
-      const values1 = pastedData.split('');
-
+      const values1 = trimpasteddata.split('');
+      const lengthvalues1 = values1.length
+      console.log(values1, 'values1')
+      console.log(lengthvalues1, 'lengthvalues1')
 
       let values = values1.slice(0, 6)
+      console.log(values, 'values123')
       const lengthvalues = values.length;
 
 
@@ -114,6 +129,7 @@ export default function VerificationDigits({ email }) {
       console.log('lengthofpastedvalues', lengthofpastedvalues);
       let slicewewant;
       if (lengthofpastedvalues > totalfields) {
+        // alert('more')
         slicewewant = totalfields - currentfield;
         console.log('slicewewant', slicewewant);
         let slicethis = values.slice(0, slicewewant);
@@ -121,6 +137,8 @@ export default function VerificationDigits({ email }) {
       }
       else {
         slicethis = values;
+        //alert('123')
+        console.log('slicethis', slicethis)
       }
 
       let wheretofocus;
@@ -152,6 +170,8 @@ export default function VerificationDigits({ email }) {
       let idx4;
       let idx5;
       if (idx === 0) {
+        //  alert('idx0')
+        //  alert(values[0])
         idx0 = 0
         idx1 = 1
         idx2 = 2
@@ -532,7 +552,22 @@ export default function VerificationDigits({ email }) {
     });
     if (!response.ok) {
       console.log('verification failed');
-      setShowErrorMessage(true);
+      const data = await response.json();
+      console.log(data, 'data ');
+      if (data.error === 'codeexpired') {
+        setErrorMessageContent('Code expired. Please request a new code.');
+        setShowErrorMessage(true);
+
+      }
+      else {
+        setErrorMessageContent('Verification failed');
+        setShowErrorMessage(true);
+      }
+
+      //time out 
+      setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 3000);
       return;
     }
     else if (response.ok) {
@@ -615,7 +650,7 @@ export default function VerificationDigits({ email }) {
 
 
             {showerrormessage && (
-              <p className="text-red-500 italic text-center pt-5">Verification failed. Please try again.</p>
+              <p className="text-red-500 italic text-center pt-5">{errormessagecontent}</p>
             )}
           </>
         )}
